@@ -8,7 +8,8 @@
 
 <FluentDataGrid Items="@Data" Pagination="@pagination"
                 ShowHover="true"
-    >
+                TGridItem="Person"
+                OnRowClick="HandleRowClick">
     <PropertyColumn Property="@(p => p.PersonId)" Sortable="true" />
     <PropertyColumn Property="@(p => p.Name)" Sortable="true" />
     <PropertyColumn Property="@(p => p.BirthDate)" Format="yyyy-MM-dd" Sortable="true" />
@@ -55,5 +56,9 @@
         }
 
         return people;
+    }
+    private void HandleRowClick(FluentDataGridRow<Person> row)
+    {
+        hoverText = row.Item.Name;
     }
 }
