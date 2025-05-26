@@ -1,8 +1,16 @@
 ﻿@inherits LayoutComponentBase
 
+<FluentDesignTheme @bind-Mode="@Mode"
+                   StorageName="theme" />
+
 <FluentLayout>
     <FluentHeader>
+        <FluentSpacer />
         fuibDotNet8
+		<FluentSpacer />
+         <FluentSwitch Label="Dark Mode"
+                      Value="@IsDarkMode"
+                      ValueChanged="HandleDarkModeChanged" />
     </FluentHeader>
     <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
         <NavMenu />
@@ -13,15 +21,10 @@
         </FluentBodyContent>
     </FluentStack>
     <FluentFooter>
-        <a href="https://www.fluentui-blazor.net" target="_blank">Documentation and demos</a>
+        
+        
         <FluentSpacer />
-        <FluentSelect 
-                      Id="DarkModeSelector"
-                      Label="Theme"
-                      Width="250px"
-                      Items="@(Enum.GetValues<DesignThemeModes>())"
-                      @bind-SelectedOption="@Mode" />
-        <FluentSpacer />
+        @Mode
         <a href="https://learn.microsoft.com/en-us/aspnet/core/blazor" target="_blank">About Blazor</a>
     </FluentFooter>
 </FluentLayout>
@@ -41,6 +44,17 @@
 
 @code
 {
-    public DesignThemeModes Mode { get; set; }
-    public OfficeColor? OfficeColor { get; set; }
+    bool IsDarkMode;
+    protected override void OnInitialized()
+    {
+        HandleDarkModeChanged(false);
+    }
+	public DesignThemeModes Mode { get; set; }
+	
+
+    private void HandleDarkModeChanged(bool value)
+    {
+        IsDarkMode = value;
+        Mode = value ? DesignThemeModes.Dark : DesignThemeModes.Light;
+    }
 }
